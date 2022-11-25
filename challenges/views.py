@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect,Http404
 from django.urls import reverse
 
 # Create your views here.
@@ -17,18 +17,18 @@ from django.urls import reverse
 #     return HttpResponse("HELLO MARCH!!")
 
 challenges = {
-    "january": "EAT A PIE JAN",
-    "february": " this is Feb",
-    "march": " this is Mar",
-    "april": " this is april",
-    "may": " this is may",
-    "june": " this is june",
-    "july": " this is july",
-    "august": " this is aug",
-    "september": " this is sept",
-    "october": " this is oct",
-    "november": " this is nov",
-    "december": " this is dec",
+    "january": "DO NOT GO TO SCHOOL",
+    "february": " TRY TO CODE FOR 12hs PER DAY",
+    "march": " DONT EAT VEGETABLES",
+    "april": " ONLY PUSHUPS ON FRIDAYS",
+    "may": " CROSSFIT EVERYDAY",
+    "june": " VACATIONS TO HAWAII",
+    "july": " CODE FOR 14hs PER DAY",
+    "august": " CRY WITH MONGODB",
+    "september": "BURNOUT CODING",
+    "october": " BUY COMPUTER",
+    "november": "STOP DOING THINGS AT ALL",
+    "december": None,
 }
 
 
@@ -64,4 +64,5 @@ def monthly_challenges(request, month):
             "text": response
         })
     except:
-        return HttpResponseNotFound(f"{month} not supported!!!")
+        # return HttpResponseNotFound(f"{month} not supported!!!")
+        raise Http404()
