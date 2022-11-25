@@ -17,7 +17,7 @@ from django.urls import reverse
 #     return HttpResponse("HELLO MARCH!!")
 
 challenges = {
-    "january": "this is Jan",
+    "january": "EAT A PIE JAN",
     "february": " this is Feb",
     "march": " this is Mar",
     "april": " this is april",
@@ -31,33 +31,37 @@ challenges = {
     "december": " this is dec",
 }
 
+
 def index(req):
     months = list(challenges.keys())
-    ref_list = ""
 
+    # for month in months:
+    #     capitalized_month = month.capitalize()
+    #     href_path = reverse("month-challenge", args=[month])
+    #     ref_list += f"<li><a href={href_path}>{capitalized_month}</a></li>"
 
-    for month in months:
-        capitalized_month = month.capitalize()
-        href_path = reverse("month-challenge" , args=[month])
-        ref_list += f"<li><a href={href_path}>{capitalized_month}</a></li>"
-
-    res_data = f"<ul>{ref_list}</ul>"
-    return HttpResponse(res_data)
+    return render(req, "challenges/index.html" , {
+        "months": months
+    })
 
 
 def monthly_challenges_by_number(request, month):
     months = list(challenges.keys())
     try:
         forward_month = months[month - 1]
-        redirect_path = reverse("month-challenge" , args=[forward_month])
+        redirect_path = reverse("month-challenge", args=[forward_month])
         return HttpResponseRedirect(redirect_path)
     except:
         return HttpResponseNotFound(f"month with the number {month} not found!!!")
 
 
 def monthly_challenges(request, month):
-    response = challenges.get(month)
-    if not response:
-        return HttpResponseNotFound(f"{month} not found!!!")
+    try:
+        response = challenges.get(month)
 
-    return HttpResponse(response)
+        return render(request, "challenges/challenge.html", {
+            "month": month.capitalize(),
+            "text": response
+        })
+    except:
+        return HttpResponseNotFound(f"{month} not supported!!!")
